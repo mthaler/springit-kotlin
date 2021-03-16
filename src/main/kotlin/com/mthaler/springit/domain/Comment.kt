@@ -1,4 +1,4 @@
-package com.mthaler.springit.model
+package com.mthaler.springit.domain
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
