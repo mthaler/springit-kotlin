@@ -11,12 +11,13 @@ import javax.persistence.Id
 import javax.persistence.OneToMany
 
 @Entity
-data class Link(@Id @GeneratedValue val id: Long,
-                val title: String,
-                val url: String,
-                @OneToMany(mappedBy = "link") val comments: List<Comment>,
-                @CreatedBy val createdBy: String,
-                @CreatedDate val creationDate: LocalDateTime,
-                @LastModifiedBy val lastModifiedBy: String,
-                @LastModifiedDate val lastModifiedDate: LocalDateTime
+class Link(
+    var title: String,
+    var url: String,
+    @OneToMany(mappedBy = "link") var comments: List<Comment>,
+    @Id @GeneratedValue var id: Long? = null,
+    @CreatedBy var createdBy: String? = null,
+    @CreatedDate var creationDate: LocalDateTime? = null,
+    @LastModifiedBy var lastModifiedBy: String? = null,
+    @LastModifiedDate var lastModifiedDate: LocalDateTime? = null
 )
