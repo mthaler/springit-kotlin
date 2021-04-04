@@ -14,7 +14,7 @@ import javax.persistence.OneToMany
 class Link(
     var title: String,
     var url: String,
-    @OneToMany(mappedBy = "link") var comments: MutableList<Comment>,
+    @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
     @Id @GeneratedValue var id: Long? = null,
     @CreatedBy var createdBy: String? = null,
     @CreatedDate var creationDate: LocalDateTime? = null,
