@@ -1,28 +1,16 @@
 package com.mthaler.springit.controller
 
-import com.mthaler.springit.domain.Link
 import com.mthaler.springit.repository.LinkRepository
-import org.springframework.web.bind.annotation.*
-import java.util.*
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
 
-@RestController
-@RequestMapping("/links")
+@Controller
 class LinkController(val linkRepository: LinkRepository) {
 
     @GetMapping("/")
-    fun list(): List<Link> = linkRepository.findAll()
-
-    // CRUD
-
-    @PostMapping("/create")
-    fun create(@ModelAttribute link: Link): Link = linkRepository.save(link)
-
-    @GetMapping("/{id}")
-    fun read(@PathVariable id: Long): Optional<Link> = linkRepository.findById(id)
-
-    @PutMapping("/{id}")
-    fun update(@ModelAttribute link: Link): Link = linkRepository.save(link)
-
-    @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long) = linkRepository.deleteById(id)
+    fun list(model: Model): String {
+        model.addAttribute("links", linkRepository.findAll())
+        return "link/list"
+    }
 }
