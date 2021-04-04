@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class HomeController {
 
-    @RequestMapping("/")
-    fun home(): String {
-        return "Hello, Spring Boot 2!"
-    }
+//    @RequestMapping("/")
+//    fun home(): String {
+//        return "Hello, Spring Boot 2!"
+//    }
 }
