@@ -10,10 +10,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
-data class Vote(@Id @GeneratedValue val id: Long,
-                val vote: Int,
-                @CreatedBy val createdBy: String,
-                @CreatedDate val creationDate: LocalDateTime,
-                @LastModifiedBy val lastModifiedBy: String,
-                @LastModifiedDate val lastModifiedDate: LocalDateTime
+class Vote(
+    var vote: Int,
+    @Id @GeneratedValue var id: Long? = null,
+    @CreatedBy var createdBy: String? = null,
+    @CreatedDate var creationDate: LocalDateTime? = null,
+    @LastModifiedBy var lastModifiedBy: String? = null,
+    @LastModifiedDate var lastModifiedDate: LocalDateTime? = null
 )
