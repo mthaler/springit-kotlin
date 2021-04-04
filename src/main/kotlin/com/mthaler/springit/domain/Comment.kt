@@ -11,7 +11,7 @@ import javax.persistence.Id
 import javax.persistence.ManyToOne
 
 @Entity
-data class Comment(@Id @GeneratedValue val id: Long,
+class Comment(@Id @GeneratedValue val id: Long,
                    val body: String,
                    @ManyToOne val link: Link?,
                    @CreatedBy val createdBy: String,

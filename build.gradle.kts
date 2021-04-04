@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.4.30"
 	kotlin("plugin.spring") version "1.4.30"
 	kotlin("plugin.jpa") version "1.4.30"
+	kotlin("plugin.allopen") version "1.4.32"
 }
 
 group = "com.mthaler"
@@ -46,4 +47,10 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
 }
