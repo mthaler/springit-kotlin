@@ -1,6 +1,7 @@
 package com.mthaler.springit.domain
 
 import com.mthaler.springit.service.BeanUtil
+import org.hibernate.validator.constraints.URL
 import org.springframework.data.annotation.CreatedBy
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedBy
@@ -14,13 +15,17 @@ import javax.persistence.OneToMany
 import org.ocpsoft.prettytime.PrettyTime
 import java.time.ZoneId
 import java.util.*
+import javax.validation.constraints.NotEmpty
 import kotlin.collections.ArrayList
 
 
 @Entity
 class Link(
-    var title: String,
-    var url: String,
+    @NotEmpty(message = "Please enter a title.")
+    var title: String = "",
+    @NotEmpty(message = "Please enter a URL.")
+    @URL(message = "Please enter a valid URL.")
+    var url: String = "",
     @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
     @Id @GeneratedValue var id: Long? = null,
     @CreatedBy var createdBy: String? = null,
