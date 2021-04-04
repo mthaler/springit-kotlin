@@ -4,8 +4,10 @@ import com.mthaler.springit.domain.Link
 import com.mthaler.springit.repository.CommentRepository
 import com.mthaler.springit.repository.LinkRepository
 import org.springframework.boot.CommandLineRunner
+import org.springframework.stereotype.Component
 import java.util.HashMap
 
+@Component
 class DatabaseLoader(val linkRepository: LinkRepository, val commentRepository: CommentRepository): CommandLineRunner {
 
     override fun run(vararg args: String?) {
