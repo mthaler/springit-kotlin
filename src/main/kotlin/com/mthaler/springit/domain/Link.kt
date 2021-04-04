@@ -24,7 +24,7 @@ class Link(
     @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
     @Id @GeneratedValue var id: Long? = null,
     @CreatedBy var createdBy: String? = null,
-    @CreatedDate var creationDate: LocalDateTime? = null,
+    @CreatedDate var creationDate: LocalDateTime = LocalDateTime.now(),
     @LastModifiedBy var lastModifiedBy: String? = null,
     @LastModifiedDate var lastModifiedDate: LocalDateTime? = null
 ) {
@@ -34,11 +34,11 @@ class Link(
         return if (domain.startsWith("www.")) domain.substring(4) else domain
     }
 
-    fun getPrettyTime(): String? {
+    fun getPrettyTime(): String {
         return creationDate?.let {
             val pt: PrettyTime = BeanUtil.getBean(PrettyTime::class.java)
             pt.format(convertToDateViaInstant(it))
-        } ?: null
+        } ?: "???"
     }
 
     private fun convertToDateViaInstant(dateToConvert: LocalDateTime): Date {
