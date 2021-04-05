@@ -24,6 +24,8 @@ class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl): Web
                 .formLogin()
                     .loginPage("/login").permitAll()
                     .usernameParameter("email")
+            .and()
+                .logout()
 //            .and()
 //                .csrf().disable()
 //                .headers().frameOptions().disable()
