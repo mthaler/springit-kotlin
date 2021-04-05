@@ -5,6 +5,7 @@ import com.mthaler.springit.repository.LinkRepository
 import com.mthaler.springit.repository.VoteRepository
 import org.springframework.web.bind.annotation.RestController
 import com.mthaler.springit.domain.Vote
+import org.springframework.security.access.annotation.Secured
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.GetMapping
 import java.util.*
@@ -12,6 +13,7 @@ import java.util.*
 @RestController
 class VoteController(val voteRepository: VoteRepository, val linkRepository: LinkRepository) {
 
+    @Secured(value = ["ROLE_USER"])
     @GetMapping("/vote/link/{linkID}/direction/{direction}/votecount/{voteCount}")
     fun vote(@PathVariable linkID: Long?, @PathVariable direction: Short, @PathVariable voteCount: Int): Int {
         val optionalLink: Optional<Link> = linkRepository.findById(linkID!!)
