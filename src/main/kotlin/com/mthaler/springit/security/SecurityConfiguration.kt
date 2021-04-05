@@ -30,9 +30,9 @@ class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl): Web
                 .logout()
             .and()
                 .rememberMe()
-//            .and()
-//                .csrf().disable()
-//                .headers().frameOptions().disable()
+            .and()
+                .csrf().disable()
+                .headers().frameOptions().disable()
 
     }
 

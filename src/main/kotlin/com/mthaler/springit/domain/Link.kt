@@ -31,7 +31,6 @@ class Link(
         comments.add(comment)
     }
 
-
     fun getDomainName(): String {
         val uri = URI(url)
         val domain: String = uri.getHost()
