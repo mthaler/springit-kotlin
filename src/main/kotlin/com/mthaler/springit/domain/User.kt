@@ -13,6 +13,8 @@ class User(
     var email: String,
     @Column(length = 100)
     internal var password: String,
+    @Column(nullable = false)
+    internal var enabled: Boolean,
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
@@ -39,6 +41,12 @@ class User(
         this.password = password
     }
 
+    override fun isEnabled(): Boolean = enabled
+
+    fun setEnabled(value: Boolean) {
+        enabled = value
+    }
+
     override fun getUsername(): String = email
 
     override fun isAccountNonExpired(): Boolean = true
@@ -46,6 +54,4 @@ class User(
     override fun isAccountNonLocked(): Boolean = true
 
     override fun isCredentialsNonExpired(): Boolean = true
-
-    override fun isEnabled(): Boolean = true
 }

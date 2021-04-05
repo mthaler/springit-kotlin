@@ -1,16 +1,28 @@
 package com.mthaler.springit.bootstrap
 
 import com.mthaler.springit.domain.Link
+import com.mthaler.springit.domain.Role
+import com.mthaler.springit.domain.User
 import com.mthaler.springit.repository.CommentRepository
 import com.mthaler.springit.repository.LinkRepository
+import com.mthaler.springit.repository.RoleRepository
+import com.mthaler.springit.repository.UserRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
-import java.util.HashMap
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import java.util.*
 
 @Component
-class DatabaseLoader(val linkRepository: LinkRepository, val commentRepository: CommentRepository): CommandLineRunner {
+class DatabaseLoader(val linkRepository: LinkRepository,
+                     val commentRepository: CommentRepository,
+                     val userRepository: UserRepository,
+                     val roleRepository: RoleRepository): CommandLineRunner {
 
     override fun run(vararg args: String?) {
+
+        // add users and roles
+        addUsersAndRoles();
+
         val links: MutableMap<String, String> = HashMap()
         links["Securing Spring Boot APIs and SPAs with OAuth 2.0"] =
             "https://auth0.com/blog/securing-spring-boot-apis-and-spas-with-oauth2/?utm_source=reddit&utm_medium=sc&utm_campaign=springboot_spa_securing"
@@ -41,5 +53,23 @@ class DatabaseLoader(val linkRepository: LinkRepository, val commentRepository: 
 
         val linkCount = linkRepository.count()
         println("Number of links in the database: $linkCount")
+    }
+
+    private fun addUsersAndRoles() {
+        val encoder = BCryptPasswordEncoder()
+        val secret = "{bcrypt}" + encoder.encode("password")
+        val userRole = Role("ROLE_USER")
+        roleRepository.save<Role>(userRole)
+        val adminRole = Role("ROLE_ADMIN")
+        roleRepository.save<Role>(adminRole)
+        val user = User("user@gmail.com", secret, true)
+        user.addRole(userRole)
+        userRepository.save<User>(user)
+        val admin = User("admin@gmail.com", secret, true)
+        admin.addRole(adminRole)
+        userRepository.save<User>(admin)
+        val master = User("master@gmail.com", secret, true)
+        master.addRoles(setOf(userRole, adminRole))
+        userRepository.save<User>(master)
     }
 }
