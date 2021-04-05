@@ -22,9 +22,11 @@ class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl): Web
                 .antMatchers("/h2-console/**").permitAll()
             .and()
                 .formLogin()
-            .and()
-                .csrf().disable()
-                .headers().frameOptions().disable()
+                    .loginPage("/login").permitAll()
+                    .usernameParameter("email")
+//            .and()
+//                .csrf().disable()
+//                .headers().frameOptions().disable()
 
     }
 
