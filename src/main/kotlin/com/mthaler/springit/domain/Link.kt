@@ -22,8 +22,12 @@ class Link(
     @URL(message = "Please enter a valid URL.")
     var url: String = "",
     @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
+    @OneToMany(mappedBy = "link") var votes: MutableList<Vote> = ArrayList(),
     @Id @GeneratedValue var id: Long? = null
 ): Auditable() {
+
+    private var voteCount = 0
+
     fun getDomainName(): String {
         val uri = URI(url)
         val domain: String = uri.getHost()
