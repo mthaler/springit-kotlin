@@ -4,9 +4,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.ocpsoft.prettytime.PrettyTime
 import org.springframework.context.annotation.Bean
+import org.springframework.transaction.annotation.EnableTransactionManagement
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect
 
 @SpringBootApplication
+@EnableTransactionManagement
 class SpringitApplication {
 
 	@Bean
