@@ -1,6 +1,8 @@
 package com.mthaler.springit.controller
 
+import com.mthaler.springit.domain.Comment
 import com.mthaler.springit.domain.Link
+import com.mthaler.springit.repository.CommentRepository
 import com.mthaler.springit.repository.LinkRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -13,9 +15,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PostMapping
 import javax.validation.Valid;
+import org.springframework.security.access.annotation.Secured
 
 @Controller
-class LinkController(val linkRepository: LinkRepository) {
+class LinkController(val linkRepository: LinkRepository, val commentRepository: CommentRepository) {
 
     @GetMapping("/")
     fun list(model: Model): String {
@@ -27,7 +30,11 @@ class LinkController(val linkRepository: LinkRepository) {
     fun read(@PathVariable id: Long?, model: Model): String? {
         val link: Optional<Link> = linkRepository.findById(id!!)
         return if (link.isPresent()) {
-            model.addAttribute("link", link.get())
+            val currentLink = link.get()
+            val comment = Comment()
+            comment.link = currentLink
+            model.addAttribute("comment", comment)
+            model.addAttribute("link", currentLink)
             model.addAttribute("success", model.containsAttribute("success"))
             "link/view"
         } else {
@@ -61,6 +68,18 @@ class LinkController(val linkRepository: LinkRepository) {
                 .addFlashAttribute("success", true)
             "redirect:/link/{id}"
         }
+    }
+
+    @Secured("ROLE_USER")
+    @PostMapping("/link/comments")
+    fun addComment(comment: @Valid Comment, bindingResult: BindingResult): String {
+        if (bindingResult.hasErrors()) {
+            logger.info("There was a problem adding a new comment.")
+        } else {
+            commentRepository.save(comment)
+            logger.info("New comment was saved successfully.")
+        }
+        return "redirect:/link/" + (comment.link?.id ?: -1L)
     }
 
     companion object {

@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne
 
 @Entity
 class Comment(
-    var body: String,
-    @ManyToOne var link: Link?,
+    var body: String = "",
+    @ManyToOne var link: Link? = null,
     @Id @GeneratedValue var id: Long? = null
 ): Auditable() {
 
