@@ -2,10 +2,6 @@ package com.mthaler.springit.domain
 
 import com.mthaler.springit.service.BeanUtil
 import org.hibernate.validator.constraints.URL
-import org.springframework.data.annotation.CreatedBy
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedBy
-import org.springframework.data.annotation.LastModifiedDate
 import java.net.URI
 import java.time.LocalDateTime
 import javax.persistence.Entity
@@ -18,7 +14,6 @@ import java.util.*
 import javax.validation.constraints.NotEmpty
 import kotlin.collections.ArrayList
 
-
 @Entity
 class Link(
     @NotEmpty(message = "Please enter a title.")
@@ -27,12 +22,8 @@ class Link(
     @URL(message = "Please enter a valid URL.")
     var url: String = "",
     @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
-    @Id @GeneratedValue var id: Long? = null,
-    @CreatedBy var createdBy: String? = null,
-    @CreatedDate var creationDate: LocalDateTime = LocalDateTime.now(),
-    @LastModifiedBy var lastModifiedBy: String? = null,
-    @LastModifiedDate var lastModifiedDate: LocalDateTime? = null
-) {
+    @Id @GeneratedValue var id: Long? = null
+): Auditable() {
     fun getDomainName(): String {
         val uri = URI(url)
         val domain: String = uri.getHost()
