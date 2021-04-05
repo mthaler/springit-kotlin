@@ -14,7 +14,7 @@ class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl): Web
         http
             .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/link/submit").hasRole("ADMIN")
+                .antMatchers("/link/submit").hasRole("USER")
             .and()
             .formLogin()
 
