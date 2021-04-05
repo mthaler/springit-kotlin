@@ -2,8 +2,8 @@ package com.mthaler.springit.controller
 
 import com.mthaler.springit.domain.Comment
 import com.mthaler.springit.domain.Link
-import com.mthaler.springit.repository.CommentRepository
-import com.mthaler.springit.repository.LinkRepository
+import com.mthaler.springit.service.CommentService
+import com.mthaler.springit.service.LinkService
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -18,17 +18,17 @@ import javax.validation.Valid;
 import org.springframework.security.access.annotation.Secured
 
 @Controller
-class LinkController(val linkRepository: LinkRepository, val commentRepository: CommentRepository) {
+class LinkController(val linkService: LinkService, val commentService: CommentService) {
 
     @GetMapping("/")
     fun list(model: Model): String {
-        model.addAttribute("links", linkRepository.findAll())
+        model.addAttribute("links", linkService.findAll())
         return "link/list"
     }
 
     @GetMapping("/link/{id}")
     fun read(@PathVariable id: Long?, model: Model): String? {
-        val link: Optional<Link> = linkRepository.findById(id!!)
+        val link: Optional<Link> = linkService.findById(id!!)
         return if (link.isPresent()) {
             val currentLink = link.get()
             val comment = Comment()
@@ -61,7 +61,7 @@ class LinkController(val linkRepository: LinkRepository, val commentRepository: 
             "link/submit"
         } else {
             // save our link
-            linkRepository.save(link)
+            linkService.save(link)
             logger.info("New link was saved successfully")
             redirectAttributes
                 .addAttribute("id", link.id)
@@ -76,7 +76,7 @@ class LinkController(val linkRepository: LinkRepository, val commentRepository: 
         if (bindingResult.hasErrors()) {
             logger.info("There was a problem adding a new comment.")
         } else {
-            commentRepository.save(comment)
+            commentService.save(comment)
             logger.info("New comment was saved successfully.")
         }
         return "redirect:/link/" + (comment.link?.id ?: -1L)
