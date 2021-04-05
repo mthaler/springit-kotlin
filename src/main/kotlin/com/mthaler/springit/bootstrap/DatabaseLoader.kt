@@ -1,5 +1,6 @@
 package com.mthaler.springit.bootstrap
 
+import com.mthaler.springit.domain.Comment
 import com.mthaler.springit.domain.Link
 import com.mthaler.springit.domain.Role
 import com.mthaler.springit.domain.User
@@ -48,7 +49,19 @@ class DatabaseLoader(val linkRepository: LinkRepository,
             "https://www.jeejava.com/file-download-example-using-spring-rest-controller/"
 
         links.forEach { (k: Any, v: Any) ->
-            linkRepository.save<Link>(Link(k, v))
+            val link = Link(k, v)
+            linkRepository.save(link)
+
+            // we will do something with comments later
+            // we will do something with comments later
+            val spring = Comment("Thank you for this link related to Spring Boot. I love it, great post!", link)
+            val security = Comment("I love that you're talking about Spring Security", link)
+            val pwa = Comment("What is this Progressive Web App thing all about? PWAs sound really cool.", link)
+            val comments: Array<Comment> = arrayOf<Comment>(spring, security, pwa)
+            for (comment in comments) {
+                commentRepository.save(comment)
+                link.addComment(comment)
+            }
         }
 
         val linkCount = linkRepository.count()

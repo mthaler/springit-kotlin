@@ -27,6 +27,11 @@ class Link(
     @Id @GeneratedValue var id: Long? = null
 ): Auditable() {
 
+    fun addComment(comment: Comment) {
+        comments.add(comment)
+    }
+
+
     fun getDomainName(): String {
         val uri = URI(url)
         val domain: String = uri.getHost()
