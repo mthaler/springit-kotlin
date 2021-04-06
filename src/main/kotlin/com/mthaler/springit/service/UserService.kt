@@ -60,6 +60,10 @@ class UserService(val userRepository: UserRepository, val roleService: RoleServi
         mailService.sendWelcomeEmail(user)
     }
 
+    fun findByEmailAndActivationCode(email: String, activationCode: String): Optional<User> {
+        return userRepository.findByEmailAndActivationCode(email, activationCode)
+    }
+
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(UserService::class.java)
     }
