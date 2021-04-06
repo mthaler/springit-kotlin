@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PostMapping
 import javax.validation.Valid
+import org.springframework.web.bind.annotation.PathVariable
+import java.util.*
 
 @Controller
 class AuthController(val userService: UserService) {
@@ -52,6 +54,20 @@ class AuthController(val userService: UserService) {
                 .addFlashAttribute("success", true)
             "redirect:/register"
         }
+    }
+
+    @GetMapping("/activate/{email}/{activationCode}")
+    fun activate(@PathVariable email: String, @PathVariable activationCode: String): String {
+        val user: Optional<User> = userService.findByEmailAndActivationCode(email, activationCode)
+        if (user.isPresent()) {
+            val newUser: User = user.get()
+            newUser.enabled = true
+            newUser.confirmPassword = newUser.password
+            userService.save(newUser)
+            userService.sendWelcomeEmail(newUser)
+            return "auth/activated"
+        }
+        return "redirect:/"
     }
 
     companion object {
