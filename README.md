@@ -23,3 +23,8 @@ Maildev should print its endpoints:
 MailDev webapp running at http://0.0.0.0:1080
 MailDev SMTP Server running at 0.0.0.0:1025
 ```
+
+When opening localhost:1080 in a browser, the following user interface should be displayed:
+
+
+![alt text](screenshots/maildev.jpg "MailDev user interface")
