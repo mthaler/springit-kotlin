@@ -1,5 +1,6 @@
 package com.mthaler.springit.domain
 
+import com.mthaler.springit.domain.validator.PasswordsMatch
 import org.springframework.security.core.userdetails.UserDetails
 import javax.persistence.*
 import javax.validation.constraints.Size
@@ -8,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority
 import javax.validation.constraints.NotEmpty
 
 @Entity
+@PasswordsMatch
 class User(
     @Size(min = 8, max = 20)
     @Column(nullable = false, unique = true)

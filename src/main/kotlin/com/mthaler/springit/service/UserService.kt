@@ -19,6 +19,7 @@ class UserService(val userRepository: UserRepository, val roleService: RoleServi
         user.password = secret
 
         // confirm password
+        user.confirmPassword = secret
 
         // assign a role to this user
         user.addRole(roleService.findByName("ROLE_USER"))
