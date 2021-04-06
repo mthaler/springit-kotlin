@@ -51,7 +51,14 @@ class DatabaseLoader(val linkRepository: LinkRepository,
             "https://www.jeejava.com/file-download-example-using-spring-rest-controller/"
 
         links.forEach { (k: Any, v: Any) ->
+            val u1 = users["user@gmail.com"]
+            val u2 = users["super@gmail.com"]
             val link = Link(k, v)
+            if (k.startsWith("Build")) {
+                link.user = u1
+            } else {
+                link.user = u2
+            }
             linkRepository.save(link)
 
             // we will do something with comments later

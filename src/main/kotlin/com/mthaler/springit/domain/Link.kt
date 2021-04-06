@@ -4,13 +4,10 @@ import com.mthaler.springit.service.BeanUtil
 import org.hibernate.validator.constraints.URL
 import java.net.URI
 import java.time.LocalDateTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.OneToMany
 import org.ocpsoft.prettytime.PrettyTime
 import java.time.ZoneId
 import java.util.*
+import javax.persistence.*
 import javax.validation.constraints.NotEmpty
 import kotlin.collections.ArrayList
 
@@ -24,6 +21,8 @@ class Link(
     @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
     @OneToMany(mappedBy = "link") var votes: MutableList<Vote> = ArrayList(),
     var voteCount: Int = 0,
+    @ManyToOne
+    var user: User? = null,
     @Id @GeneratedValue var id: Long? = null
 ): Auditable() {
 
