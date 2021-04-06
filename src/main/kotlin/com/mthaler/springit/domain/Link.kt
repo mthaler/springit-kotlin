@@ -17,14 +17,19 @@ class Link(
     var title: String = "",
     @NotEmpty(message = "Please enter a URL.")
     @URL(message = "Please enter a valid URL.")
-    var url: String = "",
-    @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList(),
-    @OneToMany(mappedBy = "link") var votes: MutableList<Vote> = ArrayList(),
-    var voteCount: Int = 0,
-    @ManyToOne
-    var user: User? = null,
-    @Id @GeneratedValue var id: Long? = null
+    var url: String = ""
 ): Auditable() {
+
+    @Id @GeneratedValue var id: Long? = null
+
+    @OneToMany(mappedBy = "link") var comments: MutableList<Comment> = ArrayList()
+
+    @OneToMany(mappedBy = "link") var votes: MutableList<Vote> = ArrayList()
+
+    @ManyToOne
+    var user: User? = null
+
+    var voteCount: Int = 0
 
     fun addComment(comment: Comment) {
         comments.add(comment)
