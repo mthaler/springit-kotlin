@@ -2,6 +2,7 @@ package com.mthaler.springit.controller
 
 import com.mthaler.springit.domain.Comment
 import com.mthaler.springit.domain.Link
+import com.mthaler.springit.domain.User
 import com.mthaler.springit.service.CommentService
 import com.mthaler.springit.service.LinkService
 import org.slf4j.Logger
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PostMapping
 import javax.validation.Valid;
 import org.springframework.security.access.annotation.Secured
+import org.springframework.security.core.context.SecurityContextHolder
 
 @Controller
 class LinkController(val linkService: LinkService, val commentService: CommentService) {
@@ -61,6 +63,7 @@ class LinkController(val linkService: LinkService, val commentService: CommentSe
             "link/submit"
         } else {
             // save our link
+            link.user = SecurityContextHolder.getContext().authentication.principal as User
             linkService.save(link)
             logger.info("New link was saved successfully")
             redirectAttributes
