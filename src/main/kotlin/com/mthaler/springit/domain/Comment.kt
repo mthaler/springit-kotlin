@@ -13,9 +13,10 @@ import javax.persistence.ManyToOne
 @Entity
 class Comment(
     var body: String = "",
-    @ManyToOne var link: Link? = null,
-    @Id @GeneratedValue var id: Long? = null
+    @ManyToOne var link: Link? = null
 ): Auditable() {
+
+    @Id @GeneratedValue var id: Long? = null
 
     fun getPrettyTime(): String {
         return creationDate?.let {
