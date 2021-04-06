@@ -6,10 +6,11 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import java.util.*
 import javax.transaction.Transactional
 
 @Service
-class UserService(val userRepository: UserRepository, val roleService: RoleService) {
+class UserService(val userRepository: UserRepository, val roleService: RoleService, val mailService: MailService) {
 
     private val encoder = BCryptPasswordEncoder()
 
@@ -25,6 +26,7 @@ class UserService(val userRepository: UserRepository, val roleService: RoleServi
         user.addRole(roleService.findByName("ROLE_USER"))
 
         // set an activation code
+        user.activationCode = UUID.randomUUID().toString()
 
         // disable the user
         user.enabled = false
@@ -51,6 +53,11 @@ class UserService(val userRepository: UserRepository, val roleService: RoleServi
     }
 
     fun sendActivationEmail(user: User) {
+        mailService.sendActivationEmail(user)
+    }
+
+    fun sendWelcomeEmail(user: User) {
+        mailService.sendWelcomeEmail(user)
     }
 
     companion object {
