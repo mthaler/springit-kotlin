@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne
 class Vote(
     var direction: Short,
     @ManyToOne
-    var link: Link,
+    var link: Link
+): Auditable() {
+
     @Id @GeneratedValue var id: Long? = null
-): Auditable()
+}
