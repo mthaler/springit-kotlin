@@ -28,7 +28,6 @@ class AuthController(val userService: UserService) {
     @GetMapping("/register")
     fun register(model: Model): String {
         model.addAttribute("user", User())
-        model.addAttribute("success", false)
         return "auth/register"
     }
 
