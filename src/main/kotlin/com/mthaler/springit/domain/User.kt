@@ -23,15 +23,17 @@ class User(
     @NotEmpty(message = "Please enter alias.")
     @Column(nullable = false, unique = true)
     var alias: String = "",
+): UserDetails {
+
+    @Id @GeneratedValue var id: Long? = null
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
-    var roles: MutableSet<Role> = HashSet(),
-    @Id @GeneratedValue var id: Long? = null
-): UserDetails {
+    var roles: MutableSet<Role> = HashSet()
 
     fun addRole(role: Role) {
         roles.add(role)
