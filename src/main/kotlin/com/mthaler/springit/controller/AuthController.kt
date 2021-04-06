@@ -34,7 +34,7 @@ class AuthController(val userService: UserService) {
 
     @PostMapping("/register")
     fun registerNewUser(
-        @Valid user: User?,
+        @Valid user: User,
         bindingResult: BindingResult,
         model: Model,
         redirectAttributes: RedirectAttributes
@@ -47,7 +47,7 @@ class AuthController(val userService: UserService) {
             "auth/register"
         } else {
             // Register new user
-            val newUser = userService.register(user!!)
+            val newUser = userService.register(user)
             redirectAttributes
                 .addAttribute("id", newUser.id)
                 .addFlashAttribute("success", true)
@@ -56,6 +56,7 @@ class AuthController(val userService: UserService) {
     }
 
     companion object {
+
         private val logger: Logger = LoggerFactory.getLogger(AuthController::class.java)
     }
 }
