@@ -6,10 +6,11 @@ import javax.persistence.Id
 import javax.persistence.ManyToMany
 
 @Entity
-class Role(
-    var name: String,
-    @ManyToMany( mappedBy = "roles")
-    var users: MutableCollection<User> = ArrayList(),
+class Role(var name: String) {
+
     @Id @GeneratedValue
     var id: Long? = null
-)
+
+    @ManyToMany( mappedBy = "roles")
+    var users: MutableCollection<User> = ArrayList()
+}
