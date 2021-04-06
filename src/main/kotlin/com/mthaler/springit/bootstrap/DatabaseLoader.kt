@@ -88,17 +88,20 @@ class DatabaseLoader(val linkRepository: LinkRepository,
 
         val user = User("user@gmail.com", secret, true, "Joe", "User", "joedirt")
         user.addRole(userRole)
+        user.confirmPassword = secret
         userRepository.save(user)
         users.put("user@gmail.com", user)
 
         val admin = User("admin@gmail.com", secret, true, "Joe", "Admin", "masteradmin")
         admin.alias = "joeadmin"
         admin.addRole(adminRole)
+        admin.confirmPassword = secret
         userRepository.save(admin)
         users.put("admin@gmail.com", admin)
 
         val master = User("super@gmail.com", secret, true, "Super", "User", "superduper")
         master.addRoles(setOf(userRole, adminRole))
+        master.confirmPassword = secret
         userRepository.save(master)
         users.put("super@gmail.com", master)
     }

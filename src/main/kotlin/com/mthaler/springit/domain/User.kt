@@ -35,6 +35,12 @@ class User(
     )
     var roles: MutableSet<Role> = HashSet()
 
+    @Transient
+    @NotEmpty(message = "Please enter Password Confirmation")
+    var confirmPassword: String = ""
+
+    var activationCode: String = ""
+
     fun addRole(role: Role) {
         roles.add(role)
     }
