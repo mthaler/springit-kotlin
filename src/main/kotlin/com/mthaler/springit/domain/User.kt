@@ -5,6 +5,7 @@ import javax.persistence.*
 import javax.validation.constraints.Size
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.GrantedAuthority
+import javax.validation.constraints.NotEmpty
 
 @Entity
 class User(
@@ -15,6 +16,13 @@ class User(
     internal var password: String,
     @Column(nullable = false)
     internal var enabled: Boolean,
+    @NotEmpty(message = "You must enter First Name.")
+    var firstName: String,
+    @NotEmpty(message = "You must enter Last Name.")
+    var lastName: String,
+    @NotEmpty(message = "Please enter alias.")
+    @Column(nullable = false, unique = true)
+    var alias: String,
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
@@ -46,6 +54,9 @@ class User(
     fun setEnabled(value: Boolean) {
         enabled = value
     }
+
+    val fullName: String
+        get() = firstName + " " + lastName
 
     override fun getUsername(): String = email
 

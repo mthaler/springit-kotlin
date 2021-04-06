@@ -11,13 +11,15 @@ import com.mthaler.springit.repository.UserRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import java.util.*
+import java.util.HashMap
 
 @Component
 class DatabaseLoader(val linkRepository: LinkRepository,
                      val commentRepository: CommentRepository,
                      val userRepository: UserRepository,
                      val roleRepository: RoleRepository): CommandLineRunner {
+
+    private val users: MutableMap<String, User> = HashMap()
 
     override fun run(vararg args: String?) {
 
@@ -71,18 +73,26 @@ class DatabaseLoader(val linkRepository: LinkRepository,
     private fun addUsersAndRoles() {
         val encoder = BCryptPasswordEncoder()
         val secret = "{bcrypt}" + encoder.encode("password")
+
         val userRole = Role("ROLE_USER")
-        roleRepository.save<Role>(userRole)
+        roleRepository.save(userRole)
         val adminRole = Role("ROLE_ADMIN")
-        roleRepository.save<Role>(adminRole)
-        val user = User("user@gmail.com", secret, true)
+        roleRepository.save(adminRole)
+
+        val user = User("user@gmail.com", secret, true, "Joe", "User", "joedirt")
         user.addRole(userRole)
-        userRepository.save<User>(user)
-        val admin = User("admin@gmail.com", secret, true)
+        userRepository.save(user)
+        users.put("user@gmail.com", user)
+
+        val admin = User("admin@gmail.com", secret, true, "Joe", "Admin", "masteradmin")
+        admin.alias = "joeadmin"
         admin.addRole(adminRole)
-        userRepository.save<User>(admin)
-        val master = User("master@gmail.com", secret, true)
+        userRepository.save(admin)
+        users.put("admin@gmail.com", admin)
+
+        val master = User("super@gmail.com", secret, true, "Super", "User", "superduper")
         master.addRoles(setOf(userRole, adminRole))
-        userRepository.save<User>(master)
+        userRepository.save(master)
+        users.put("super@gmail.com", master)
     }
 }
