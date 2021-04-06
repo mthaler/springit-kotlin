@@ -11,18 +11,18 @@ import javax.validation.constraints.NotEmpty
 class User(
     @Size(min = 8, max = 20)
     @Column(nullable = false, unique = true)
-    var email: String,
+    var email: String = "",
     @Column(length = 100)
-    internal var password: String,
+    internal var password: String = "",
     @Column(nullable = false)
-    internal var enabled: Boolean,
+    internal var enabled: Boolean = false,
     @NotEmpty(message = "You must enter First Name.")
-    var firstName: String,
+    var firstName: String = "",
     @NotEmpty(message = "You must enter Last Name.")
-    var lastName: String,
+    var lastName: String = "",
     @NotEmpty(message = "Please enter alias.")
     @Column(nullable = false, unique = true)
-    var alias: String,
+    var alias: String = "",
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "users_roles",
