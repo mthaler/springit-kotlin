@@ -1,6 +1,8 @@
 # springit-kotlin
 Springit project from "Getting Started with Spring Boot 2" on Udemy ported to Kotlin
 
+![alt text](screenshots/springit.jpg "Springit web app")
+
 ## Setting up an email server
 
 For sending activation emails to new users, it is necessary to set up a local email server. [MailDev](https://github.com/maildev/maildev) is a simple email server that runs on top of Node.js.
